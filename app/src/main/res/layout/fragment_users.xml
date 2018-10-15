@@ -3,12 +3,11 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".UsersFragment">
+             tools:context=".MainActivity">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_users"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
-
+            android:layout_height="wrap_content"
+            tools:listitem="@android:layout/simple_list_item_checked"/>
 </FrameLayout>

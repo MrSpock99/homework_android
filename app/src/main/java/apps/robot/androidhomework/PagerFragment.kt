@@ -1,48 +1,70 @@
 package apps.robot.androidhomework
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentStatePagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import apps.robot.androidhomework.pager_tabs.Tab
+import apps.robot.androidhomework.pager_tabs.Tab1
+import apps.robot.androidhomework.pager_tabs.Tab2
+import apps.robot.androidhomework.pager_tabs.Tab3
+import kotlinx.android.synthetic.main.fragment_pager.*
 
 class PagerFragment : Fragment() {
-    private var listener: OnFragmentInteractionListener? = null
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_users, container, false)
+        return inflater.inflate(R.layout.fragment_pager, container, false)
     }
 
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
-    }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val pagerAdapter = PagerAdapter(activity!!.supportFragmentManager)
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
-    }
+        pagerAdapter.addFragment(Tab1.newInstance("Tab1"))
+        pagerAdapter.addFragment(Tab2.newInstance("Tab2"))
+        pagerAdapter.addFragment(Tab3.newInstance("Tab3"))
 
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
+        pager.adapter = pagerAdapter
 
-    interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+        tablayout.setupWithViewPager(pager)
     }
 
     companion object {
-        fun newInstance() = UsersFragment()
+        fun newInstance() = PagerFragment()
+    }
+
+    private class PagerAdapter(fm: android.support.v4.app.FragmentManager) : FragmentStatePagerAdapter(fm) {
+        private val mFragmentList: MutableList<Tab> = ArrayList()
+        override fun getItem(position: Int): Fragment {
+            when (position) {
+                0 -> {
+                    return mFragmentList[position] as Fragment
+                }
+                1 -> {
+                    return mFragmentList[position] as Fragment
+                }
+                2 -> {
+                    return mFragmentList[position] as Fragment
+                }
+            }
+            return mFragmentList[position] as Fragment
+        }
+
+        override fun getCount(): Int {
+            return mFragmentList.size
+        }
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return mFragmentList[position].getFragName()
+        }
+
+        fun addFragment(frag: Tab) {
+            mFragmentList.add(frag)
+        }
     }
 }
