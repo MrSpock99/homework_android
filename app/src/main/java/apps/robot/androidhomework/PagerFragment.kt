@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import apps.robot.androidhomework.pager_tabs.Tab
 import apps.robot.androidhomework.pager_tabs.Tab1
 import apps.robot.androidhomework.pager_tabs.Tab2
 import apps.robot.androidhomework.pager_tabs.Tab3
@@ -23,11 +22,18 @@ class PagerFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val pagerAdapter = PagerAdapter(activity!!.supportFragmentManager)
+        val pagerAdapter = PagerAdapter(childFragmentManager)
 
-        pagerAdapter.addFragment(Tab1.newInstance("Tab1"))
-        pagerAdapter.addFragment(Tab2.newInstance("Tab2"))
-        pagerAdapter.addFragment(Tab3.newInstance("Tab3"))
+        val fragNames: MutableList<String> = ArrayList()
+        fragNames.add("Tab1")
+        fragNames.add("Tab2")
+        fragNames.add("Tab3")
+
+        pagerAdapter.addFragment(Tab1.newInstance(fragNames[0]))
+        pagerAdapter.addFragment(Tab2.newInstance(fragNames[1]))
+        pagerAdapter.addFragment(Tab3.newInstance(fragNames[2]))
+
+        pagerAdapter.setFragNames(fragNames)
 
         pager.adapter = pagerAdapter
 
@@ -39,20 +45,21 @@ class PagerFragment : Fragment() {
     }
 
     private class PagerAdapter(fm: android.support.v4.app.FragmentManager) : FragmentStatePagerAdapter(fm) {
-        private val mFragmentList: MutableList<Tab> = ArrayList()
+        private val mFragmentList: MutableList<Fragment> = ArrayList()
+        private var mFragmentTitleList: MutableList<String> = ArrayList()
         override fun getItem(position: Int): Fragment {
             when (position) {
                 0 -> {
-                    return mFragmentList[position] as Fragment
+                    return mFragmentList[position]
                 }
                 1 -> {
-                    return mFragmentList[position] as Fragment
+                    return mFragmentList[position]
                 }
                 2 -> {
-                    return mFragmentList[position] as Fragment
+                    return mFragmentList[position]
                 }
             }
-            return mFragmentList[position] as Fragment
+            return mFragmentList[position]
         }
 
         override fun getCount(): Int {
@@ -60,11 +67,15 @@ class PagerFragment : Fragment() {
         }
 
         override fun getPageTitle(position: Int): CharSequence? {
-            return mFragmentList[position].getFragName()
+            return mFragmentTitleList[position]
         }
 
-        fun addFragment(frag: Tab) {
+        fun addFragment(frag: Fragment) {
             mFragmentList.add(frag)
+        }
+
+        fun setFragNames(list: MutableList<String>) {
+            mFragmentTitleList = list
         }
     }
 }

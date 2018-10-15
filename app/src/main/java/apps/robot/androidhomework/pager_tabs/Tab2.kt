@@ -6,12 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import apps.robot.androidhomework.R
+import kotlinx.android.synthetic.main.fragment_empty.*
 
 private const val ARG_PARAM1 = "param1"
 
-class Tab2 : Fragment(), Tab {
-
+class Tab2 : Fragment() {
     private var param1: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,15 +28,9 @@ class Tab2 : Fragment(), Tab {
         return inflater.inflate(R.layout.fragment_empty, container, false)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-        }
-    }
-
-    override fun getFragName(): String? {
-        return param1
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        tv_empty.text = param1
     }
 
     companion object {
