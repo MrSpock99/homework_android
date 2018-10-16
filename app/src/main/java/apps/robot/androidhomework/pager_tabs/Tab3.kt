@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import apps.robot.androidhomework.R
 import kotlinx.android.synthetic.main.fragment_empty.*
 
-private const val ARG_PARAM1 = "param1"
-
 class Tab3 : Fragment() {
+
     private var param1: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +33,9 @@ class Tab3 : Fragment() {
     }
 
     companion object {
+
+        private const val ARG_PARAM1 = "param1"
+
         fun newInstance(param1: String) = Tab3().apply {
             arguments = Bundle().apply {
                 putString(ARG_PARAM1, param1)

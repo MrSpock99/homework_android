@@ -12,6 +12,7 @@ import apps.robot.androidhomework.pager_tabs.Tab3
 import kotlinx.android.synthetic.main.fragment_pager.*
 
 class PagerFragment : Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,10 +39,6 @@ class PagerFragment : Fragment() {
         pager.adapter = pagerAdapter
 
         tablayout.setupWithViewPager(pager)
-    }
-
-    companion object {
-        fun newInstance() = PagerFragment()
     }
 
     private class PagerAdapter(fm: android.support.v4.app.FragmentManager) : FragmentStatePagerAdapter(fm) {
@@ -78,4 +75,9 @@ class PagerFragment : Fragment() {
             mFragmentTitleList = list
         }
     }
+
+    companion object {
+        fun newInstance() = PagerFragment()
+    }
 }
+

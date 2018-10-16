@@ -19,6 +19,9 @@ class MainActivity : AppCompatActivity(), UsersListClickListener {
             R.id.navigation_pager -> {
                 ft.replace(R.id.container_main, PagerFragment.newInstance())
             }
+            else -> {
+                return@OnNavigationItemSelectedListener false
+            }
         }
         ft.addToBackStack(null)
         ft.commit()
