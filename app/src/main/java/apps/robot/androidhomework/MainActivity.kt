@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun stopAlarm() {
         val alarmManager: AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this, MyAlarm::class.java)
+        val intent = Intent(this, MyAlarmReceiver::class.java)
 
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
 
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setAlarm(timeInMills: Long) {
         val alarmManager: AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this, MyAlarm::class.java)
+        val intent = Intent(this, MyAlarmReceiver::class.java)
 
         val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
 

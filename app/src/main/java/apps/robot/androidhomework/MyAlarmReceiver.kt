@@ -12,16 +12,16 @@ import android.support.v4.app.NotificationCompat
 
 private const val CHANNEL_ID: String = "WAKE_UP"
 
-class MyAlarm : BroadcastReceiver() {
+class MyAlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, p1: Intent?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = context?.getString(R.string.channel_name) as CharSequence
-            val description = context.getString(R.string.channel_description)
+            val name = context?.getString(R.string.channel_name)
+            val description = context?.getString(R.string.channel_description)
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(CHANNEL_ID, name, importance)
             channel.description = description
 
-            val notificationManager = context.getSystemService(NotificationManager::class.java) as NotificationManager
+            val notificationManager = context?.getSystemService(NotificationManager::class.java) as NotificationManager
             notificationManager.createNotificationChannel(channel)
             val notification = NotificationCompat.Builder(context, CHANNEL_ID).build()
 
@@ -30,7 +30,7 @@ class MyAlarm : BroadcastReceiver() {
             val builder = NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.notification_template_icon_bg)
                     .setContentTitle(context?.resources?.getString(R.string.app_name))
-                    .setContentText("Time to wake up!")
+                    .setContentText(context?.getString(R.string.channel_description))
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setSound(Settings.System.DEFAULT_RINGTONE_URI)
 

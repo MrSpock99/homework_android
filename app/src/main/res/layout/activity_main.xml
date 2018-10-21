@@ -18,17 +18,17 @@
         android:id="@+id/btn_set_alarm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Set alarm"
+        android:text="@string/set_alarm_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/time_picker" />
+        app:layout_constraintTop_toBottomOf="@id/time_picker" />
 
     <Button
         android:id="@+id/btn_stop_alarm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Stop alarm"
+        android:text="@string/stop_alarm_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btn_set_alarm" />
+        app:layout_constraintTop_toBottomOf="@id/btn_set_alarm" />
 </android.support.constraint.ConstraintLayout>
