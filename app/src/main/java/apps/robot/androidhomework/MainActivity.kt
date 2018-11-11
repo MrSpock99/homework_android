@@ -14,7 +14,6 @@ import apps.robot.androidhomework.fragments.MusicListFragment
 import apps.robot.androidhomework.fragments.PlayerFragment
 import apps.robot.androidhomework.fragments.SettingsFragment
 
-
 class MainActivity : AppCompatActivity(), MusicListFragment.OnMusicListItemClickListener,
         PlayerFragment.OnPlayerButtonsClickListener, ServiceConnection {
     private lateinit var mMusicService: MusicService

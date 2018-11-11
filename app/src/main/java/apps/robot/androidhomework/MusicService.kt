@@ -1,8 +1,12 @@
 package apps.robot.androidhomework
 
-import android.app.*
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.media.MediaPlayer
 import android.os.Binder
 import android.os.Build
@@ -22,12 +26,21 @@ private const val NOTIFICATION_ID = 101
 class MusicService : Service() {
     private val mBinder = MusicBinder()
     private var player: MediaPlayer = MediaPlayer()
-    private lateinit var notification: Notification
     private lateinit var notificationBuilder: NotificationCompat.Builder
     private var listener: OnTrackCompletedListener? = null
 
     override fun onBind(intent: Intent?): IBinder? {
         return mBinder
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        player.release()
+    }
+
+    override fun unbindService(conn: ServiceConnection) {
+        super.unbindService(conn)
+        player.release()
     }
 
     fun initMediaPlayer(fragment: PlayerFragment) {
@@ -42,7 +55,7 @@ class MusicService : Service() {
             musicItem = MusicContent.ITEMS[MusicContent.currentIndex]
             player = MediaPlayer.create(this, musicItem.musicId)
             playOrPause()
-            showNotification(musicItem)
+            updateNotification(musicItem)
             (listener as PlayerFragment).onCompleted(musicItem)
         }
         showNotification(musicItem)
@@ -106,7 +119,9 @@ class MusicService : Service() {
 
         notificationBuilder.setCustomContentView(layout)
 
-        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
+        //notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
+        startForeground(NOTIFICATION_ID, notificationBuilder.build())
+
     }
 
     private fun showNotification(musicItem: MusicItem) {
@@ -145,7 +160,8 @@ class MusicService : Service() {
                 .setContentIntent(pendingIntent)
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
+        //notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
+        startForeground(NOTIFICATION_ID, notificationBuilder.build())
     }
 
     private fun createNotificationChannel() {

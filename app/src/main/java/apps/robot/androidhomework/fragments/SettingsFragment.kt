@@ -1,6 +1,5 @@
 package apps.robot.androidhomework.fragments
 
-
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -10,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import apps.robot.androidhomework.R
 import kotlinx.android.synthetic.main.fragment_settings.view.*
-
 
 class SettingsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
