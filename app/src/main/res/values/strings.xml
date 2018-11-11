@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">AndroidHomework</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="btn_play_text">Play</string>
+    <string name="btn_next_text">Next</string>
+    <string name="btn_prev_text">Prev</string>
+    <string name="btn_change_app_theme_text">Change app theme</string>
+    <string name="action_settings">Settings</string>
+    <string name="channel_name">Player Notification</string>
+    <string name="channel_description">Provides player controlling</string>
+    <string name="dialog_theme_title">Choose a theme</string>
+    <array name="app_themes">
+        <item>Red</item>
+        <item>Green</item>
+        <item>Default</item>
+    </array>
 </resources>
