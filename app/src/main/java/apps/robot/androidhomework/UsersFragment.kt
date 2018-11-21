@@ -15,8 +15,8 @@ class UsersFragment : UsersListClickListener, Fragment() {
     private lateinit var mUserAdapter: UserAdapter
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_users, container, false)
@@ -33,54 +33,23 @@ class UsersFragment : UsersListClickListener, Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val dialog = context?.let {
-            AlertDialog.Builder(it)
-                    .setView(LayoutInflater.from(context).inflate(R.layout.dialog_progress, null))
-                    .setPositiveButton("OK") { dialog, which ->
-                        dialog.cancel()
-                    }
-                    .create()
 
-        }
-        dialog?.show()
-        val pb_dialog: ProgressBar? = dialog?.findViewById(R.id.pb_dialog)
         when (item?.itemId) {
             R.id.menu_sort_alpha -> {
-                Observable
-                        .just(mUsersList)
-                        .flatMapIterable { list -> list }
-                        .take(12)
-                        .doOnNext { it ->
-                            it.name = it.name + it.name.length.toString()
-                            if (pb_dialog != null) {
-                                pb_dialog.progress = pb_dialog.progress + 1
-                            }
-                        }
-                        .toSortedList { p1, p2 -> p1.name.compareTo(p2.name) }
-                        .subscribe { list ->
-                            mUsersList = list
-                            dialog?.dismiss()
-                        }
+                getObservable()
+                    .toSortedList { p1, p2 -> p1.name.compareTo(p2.name) }
+                    .subscribe { list ->
+                        mUsersList = list
+                    }
             }
             R.id.menu_sort_digit -> {
-                Observable
-                        .just(mUsersList)
-                        .flatMapIterable { list -> list }
-                        .take(12)
-                        .doOnNext { it ->
-                            it.name = it.name + it.name.length
-                            if (pb_dialog != null) {
-                                pb_dialog.progress = pb_dialog.progress + 1
-                            }
-                        }
-                        .toSortedList { p1, p2 -> p1.id.compareTo(p2.id) }
-                        .subscribe { list ->
-                            mUsersList = list
-                            dialog?.dismiss()
-                        }
+                getObservable()
+                    .toSortedList { p1, p2 -> p1.id.compareTo(p2.id) }
+                    .subscribe { list ->
+                        mUsersList = list
+                    }
             }
             else -> {
-                dialog?.dismiss()
                 return false
             }
         }
@@ -88,8 +57,30 @@ class UsersFragment : UsersListClickListener, Fragment() {
         return true
     }
 
-    override fun onClick(pos: Int) {
-
+    private fun getObservable(): Observable<User> {
+        val dialog = context?.let {
+            AlertDialog.Builder(it)
+                .setView(LayoutInflater.from(context).inflate(R.layout.dialog_progress, null))
+                .setPositiveButton("OK") { dialog, which ->
+                    dialog.cancel()
+                }
+                .create()
+        }
+        dialog?.show()
+        val pb_dialog: ProgressBar? = dialog?.findViewById(R.id.pb_dialog)
+        return Observable
+            .just(mUsersList)
+            .flatMapIterable { list -> list }
+            .take(12)
+            .doOnNext { it ->
+                it.name = it.name + it.name.length
+                if (pb_dialog != null) {
+                    pb_dialog.progress = pb_dialog.progress + 1
+                }
+            }
+            .doAfterTerminate {
+                dialog?.dismiss()
+            }
     }
 
     private fun init() {
@@ -97,6 +88,10 @@ class UsersFragment : UsersListClickListener, Fragment() {
         mUserAdapter.submitList(mUsersList)
         rv_users.layoutManager = GridLayoutManager(context, 1)
         rv_users.adapter = mUserAdapter
+    }
+
+    override fun onClick(pos: Int) {
+
     }
 
     companion object {
